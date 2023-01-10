@@ -27,7 +27,7 @@
             "arn": "arn:aws:s3:::pletcher-cloudchallenge185231-dev"
           },
           "object": {
-            "key": "private/us-east-2:92565904-ef19-4800-aa7f-cd62e1198060/1673011740424.jpg",
+            "key": "private/us-east-2${process.env.key}.jpg",
             "size": 1024,
             "eTag": "0123456789abcdef0123456789abcdef",
             "sequencer": "0A1B2C3D4E5F678901"
