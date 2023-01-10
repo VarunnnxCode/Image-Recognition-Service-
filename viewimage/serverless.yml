@@ -1,0 +1,32 @@
+service: getimagedata
+frameworkVersion: "2"
+custom:
+  bucket: "pletcher-cloudchallenge185231-dev" 
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  region: us-east-2
+  lambdaHashingVersion: 20201221
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:GetObject"
+      Resource:
+        - "arn:aws:s3:::${self:custom.bucket}/*"
+
+functions:
+  getImageData:
+    handler: handler.getImageData
+    events:
+      - s3:
+          bucket: ${self:custom.bucket}
+          event: s3:ObjectCreated:*
+          rules:
+            - suffix: .jpg
+          existing: true # important so that you can use the existing bucket Amplify created
+    environment:
+      AzureKey: "1abdf5fe7fd94d0397f52dc6d3cd31c9"
+      VisionAPI: "https://z-cloudchallenge.cognitiveservices.azure.com//vision/v3.0/analyze?visualFeatures=Tags"
+      GOOGLE_APPLICATION_CREDENTIALS: "./cloudchallenge-374004-e516050b2b44.json"
+      NoSQLAPI: "https://firestore.googleapis.com/v1/projects/cloudchallenge-374004/databases/(default)/documents/imageData"
